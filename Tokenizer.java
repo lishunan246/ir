@@ -5,15 +5,15 @@ import java.util.*;
  * Created by Henry on 2015/6/17.
  */
 public class Tokenizer {
-    String passage;
-    String punctuation;
-    List stopwords = new ArrayList<String>();
-    HashMap<String, HashMap<Integer, Indexer>> tokenMap = new HashMap<>();
+    private String passage;
+    private String punctuation;
+    private List stopwords = new ArrayList<String>();
+    public HashMap<String, HashMap<Integer, Indexer>> tokenMap = new HashMap<>();
 
     Tokenizer(String stopwordsPath){
         try {
             passage = "";
-            punctuation = " \t\n\r\f,.:;?![]";
+            punctuation = " \t\n\r\f,.:;?![]0123456789()+-*/";
             BufferedReader bfr1 = new BufferedReader(new FileReader(stopwordsPath));
             String line;
             while((line = bfr1.readLine()) != null){
@@ -112,15 +112,12 @@ public class Tokenizer {
         return sb.toString();
     }
 
-    public static void main(String[] args) {
-        Tokenizer tknz = new Tokenizer("resource/stopwords.txt");
-        tknz.passage = "This is a tests. can you figures, the ! signed ? out of   the words can't we'll this is a tested signs signing testing took take good";
-
-        tknz.tokenize(1, tknz.passage);
-        tknz.tokenize(2, tknz.passage);
-        tknz.tokenize(3, tknz.passage);
-
-
-//        System.out.println(tknz.stemTerm("This is a tests. can you figures, the ! signed ? out of   the words"));
-    }
+//    public static void main(String[] args) {
+//        Tokenizer tknz = new Tokenizer("resource/stopwords.txt");
+//        tknz.passage = "March/April-June/July,";
+//
+//        tknz.tokenize(1, tknz.passage);
+//        tknz.tokenize(2, tknz.passage);
+//        tknz.tokenize(3, tknz.passage);
+//    }
 }

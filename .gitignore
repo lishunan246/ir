@@ -1,4 +1,4 @@
 .idea/*
 *.iml
 out/*
-Reuters/*
+resource/Reuters/*

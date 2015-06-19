@@ -1,12 +1,11 @@
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Henry on 2015/6/16.
  */
-public class Indexer {
+public class Indexer implements Serializable{
     private Integer docID;
     private Integer tf;
     private List posList;

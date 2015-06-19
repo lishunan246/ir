@@ -1,29 +1,66 @@
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 /**
  * Created by Henry on 2015/6/17.
  */
 public class Tokenizer {
     String passage;
-    HashMap<String, Integer> token_tf;
-    String punctuation = " \t\n\r\f,.:;?![]'";
+    String punctuation;
+    List stopwords = new ArrayList<String>();
+    HashMap<String, HashMap<Integer, Indexer>> tokenMap = new HashMap<>();
 
-    public HashMap<String, Integer> tokenize(String text){
-        StringTokenizer st = new StringTokenizer(text, punctuation);
-        while(st.hasMoreTokens()){
-            System.out.println(st.nextToken());
+    Tokenizer(String stopwordsPath){
+        try {
+            passage = "";
+            punctuation = " \t\n\r\f,.:;?![]";
+            BufferedReader bfr1 = new BufferedReader(new FileReader(stopwordsPath));
+            String line;
+            while((line = bfr1.readLine()) != null){
+                stopwords.add(line);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return token_tf;
     }
 
-//    public Boolean stopword(String word){
-//        return true;
-//    }
-//
+    public void tokenize(Integer docID, String text){
+        StringTokenizer st = new StringTokenizer(text, punctuation);
+        String tempWord;
+        Integer pos = 0;
+
+        while(st.hasMoreTokens()){
+            pos += 1;
+            if(!isStopword(tempWord = st.nextToken())) {
+                tempWord = stemTerm(tempWord);
+                if(!tokenMap.containsKey(tempWord)){
+                    HashMap<Integer, Indexer> docIDMap = new HashMap<>();
+                    Indexer indexer = new Indexer(docID, pos);
+                    docIDMap.put(docID, indexer);
+                    tokenMap.put(tempWord, docIDMap);
+                }else{
+                    if(!tokenMap.get(tempWord).containsKey(docID)){
+                        Indexer indexer = new Indexer(docID, pos);
+                        tokenMap.get(tempWord).put(docID, indexer);
+                    }else{
+                        tokenMap.get(tempWord).get(docID).updateTf();
+                        tokenMap.get(tempWord).get(docID).updatePosList(pos);
+                    }
+                }
+            }
+        }
+    }
+
+    public Boolean isStopword(String word){
+        if(stopwords.contains(word)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public String stemTerm(String term){
         char[] w = new char[501];
         Stemmer s = new Stemmer();
@@ -76,17 +113,14 @@ public class Tokenizer {
     }
 
     public static void main(String[] args) {
-        Tokenizer tknz = new Tokenizer();
-        tknz.passage = "This is a tests. can you figures, the ! signed ? out of   the words";
-//        tknz.tokenize(tknz.passage);
+        Tokenizer tknz = new Tokenizer("resource/stopwords.txt");
+        tknz.passage = "This is a tests. can you figures, the ! signed ? out of   the words can't we'll this is a tested signs signing testing took take good";
 
-//        FileInputStream in = null;
-//        try {
-//            in = new FileInputStream(FilePath);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
+        tknz.tokenize(1, tknz.passage);
+        tknz.tokenize(2, tknz.passage);
+        tknz.tokenize(3, tknz.passage);
 
-        System.out.println(tknz.stemTerm("This is a tests. can you figures, the ! signed ? out of   the words"));
+
+//        System.out.println(tknz.stemTerm("This is a tests. can you figures, the ! signed ? out of   the words"));
     }
 }

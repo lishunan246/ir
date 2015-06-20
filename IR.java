@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.HashMap;
 
 /**
  * Created by Henry on 2015/6/19.
@@ -8,9 +9,10 @@ public class IR {
         String filename;
         BufferedReader bfr;
         String line;
-        String passage = "";
+        String passage;
         for(Integer i=from; i<=to; i++){
             filename = "resource/Reuters/" + i.toString() + ".html";
+            passage = "";
             try {
                 bfr = new BufferedReader(new FileReader(new File(filename)));
                 while((line = bfr.readLine()) != null){
@@ -29,10 +31,10 @@ public class IR {
     public static void main(String[] args) {
         Tokenizer tknz = new Tokenizer("resource/stopwords.txt");
         IR ir = new IR();
-        ir.readFile(1, 100, tknz);
+        ir.readFile(1, 1000, tknz);
 
         try {
-            FileOutputStream fos = new FileOutputStream("resource/tokenMap100.ser");
+            FileOutputStream fos = new FileOutputStream("resource/tokenMap1000.ser");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(tknz.tokenMap);
             oos.close();
@@ -45,7 +47,7 @@ public class IR {
 
 //        Tokenizer tknz2 = new Tokenizer("resource/stopwords.txt");
 //        try {
-//            FileInputStream fis = new FileInputStream("resource/tokenMap1000.ser");
+//            FileInputStream fis = new FileInputStream("resource/tokenMap100.ser");
 //            ObjectInputStream ois = new ObjectInputStream(fis);
 //            tknz2.tokenMap = (HashMap<String, HashMap<Integer, Indexer>>) ois.readObject();
 //            ois.close();

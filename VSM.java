@@ -15,14 +15,15 @@ public class VSM {
 	 */	
 	
 	public HashMap<String, HashMap<Integer, Indexer>> tokenMap;
-	double N = 100;
+	double N;
 	
 	/**
 	 * function
 	 */
 	
-	VSM(HashMap<String, HashMap<Integer, Indexer>>map){
+	VSM(HashMap<String, HashMap<Integer, Indexer>>map, Integer n){
 		tokenMap = map;
+		N = n;
 	}
 	
 	

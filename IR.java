@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.HashMap;
 
 /**
  * Created by Henry on 2015/6/19.
@@ -17,7 +16,7 @@ public class IR {
                 while((line = bfr.readLine()) != null){
                     passage += line;
                 }
-                tknz.tokenize(i, passage);
+                tknz.indexing(i, passage);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 continue;
@@ -58,7 +57,6 @@ public class IR {
 //        } catch (ClassNotFoundException e) {
 //            e.printStackTrace();
 //        }
-
 
     }
 }

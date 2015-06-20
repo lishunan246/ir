@@ -26,7 +26,7 @@ public class Tokenizer {
         }
     }
 
-    public void tokenize(Integer docID, String text){
+    public void indexing(Integer docID, String text){
         StringTokenizer st = new StringTokenizer(text, punctuation);
         String tempWord;
         Integer pos = 0;
@@ -51,6 +51,19 @@ public class Tokenizer {
                 }
             }
         }
+    }
+
+    public ArrayList<String> tokenize(String text){
+        StringTokenizer st = new StringTokenizer(text, punctuation);
+        String tempWord;
+        ArrayList<String> query = new ArrayList<>();
+        while (st.hasMoreTokens()){
+            if(!isStopword((tempWord = st.nextToken()))){
+                tempWord = stemTerm(tempWord);
+                query.add(tempWord);
+            }
+        }
+        return query;
     }
 
     public Boolean isStopword(String word){
@@ -116,8 +129,8 @@ public class Tokenizer {
 //        Tokenizer tknz = new Tokenizer("resource/stopwords.txt");
 //        tknz.passage = "March/April-June/July,";
 //
-//        tknz.tokenize(1, tknz.passage);
-//        tknz.tokenize(2, tknz.passage);
-//        tknz.tokenize(3, tknz.passage);
+//        ArrayList<String> queryList;
+//        queryList = tknz.tokenize(tknz.passage);
+//        System.out.println(queryList);
 //    }
 }

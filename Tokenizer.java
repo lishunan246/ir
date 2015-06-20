@@ -13,7 +13,7 @@ public class Tokenizer {
     Tokenizer(String stopwordsPath){
         try {
             passage = "";
-            punctuation = " \t\n\r\f,.:;?![]0123456789()+-*/";
+            punctuation = " \t\n\r\f,.:;?![]0123456789()+-*/<>\"@#$%^&~\\|";
             BufferedReader bfr1 = new BufferedReader(new FileReader(stopwordsPath));
             String line;
             while((line = bfr1.readLine()) != null){

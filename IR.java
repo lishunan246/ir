@@ -30,10 +30,10 @@ public class IR {
     public static void main(String[] args) {
         Tokenizer tknz = new Tokenizer("resource/stopwords.txt");
         IR ir = new IR();
-        ir.readFile(1, 1, tknz);
+        ir.readFile(1, 100, tknz);
 
         try {
-            FileOutputStream fos = new FileOutputStream("resource/tokenMap.ser");
+            FileOutputStream fos = new FileOutputStream("resource/tokenMap100.ser");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(tknz.tokenMap);
             oos.close();
@@ -44,20 +44,20 @@ public class IR {
             e.printStackTrace();
         }
 
-        Tokenizer tknz2 = new Tokenizer("resource/stopwords.txt");
-        try {
-            FileInputStream fis = new FileInputStream("resource/tokenMap.ser");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            tknz2.tokenMap = (HashMap<String, HashMap<Integer, Indexer>>) ois.readObject();
-            ois.close();
-            fis.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+//        Tokenizer tknz2 = new Tokenizer("resource/stopwords.txt");
+//        try {
+//            FileInputStream fis = new FileInputStream("resource/tokenMap1000.ser");
+//            ObjectInputStream ois = new ObjectInputStream(fis);
+//            tknz2.tokenMap = (HashMap<String, HashMap<Integer, Indexer>>) ois.readObject();
+//            ois.close();
+//            fis.close();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
 
     }

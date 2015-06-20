@@ -2,3 +2,4 @@
 *.iml
 out/*
 resource/Reuters/*
+resource/tokenMap*
